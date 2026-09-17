@@ -1,0 +1,41 @@
+# Python and local environments
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Secrets and machine-specific settings
+.env
+.env.*
+!.env.example
+.DS_Store
+.idea/
+.vscode/
+
+# Local assets (keep explanatory files)
+/data/**
+!/data/README.md
+!/data/raw/
+!/data/raw/.gitkeep
+!/data/processed/
+!/data/processed/.gitkeep
+!/data/splits/
+!/data/splits/.gitkeep
+/outputs/**
+!/outputs/README.md
+/references/**
+!/references/README.md
+
+# Model weights and archives
+*.pt
+*.pth
+*.safetensors
+*.onnx
+*.zip
+*.tar
+*.tar.gz
