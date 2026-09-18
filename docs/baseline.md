@@ -4,9 +4,9 @@
 
 - Repository: https://github.com/T-Sunm/olp-ai-ptit-2026-preliminary-round
 - Phần cần xem: `DocViVQA/`.
-- Commit upstream: [Chưa lấy]
-- Vị trí code tại máy: [Chưa nhập]
-- Thay đổi so với upstream: [Chưa có]
+- Commit upstream: `2aa3ac75343abe87a4a487e964c7cae47e568e6a`
+- Vị trí code tại máy: [baselines/DocViVQA/](../baselines/DocViVQA/)
+- Thay đổi so với upstream: không sửa nội dung; giữ nguyên toàn bộ file được Git theo dõi trong thư mục `DocViVQA/`. Xem [hướng dẫn nhập baseline](../baselines/README.md).
 - Cấu hình/checkpoint, môi trường, evaluator và lệnh chạy: [Điền khi tái hiện]
 
 ## Kết quả tutorial — chỉ để tham khảo

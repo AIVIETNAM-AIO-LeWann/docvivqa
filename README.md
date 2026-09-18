@@ -2,7 +2,7 @@
 
 Workspace nghiên cứu cải thiện baseline DocViVQA, tập trung vào **Visual Bold Lookup, Argmax, Argmin**, đồng thời khảo sát tích hợp **LLM/VLM**.
 
-**Trạng thái:** mới tạo cấu trúc dự án. Chưa nhập dữ liệu, sao chép baseline, chạy mô hình hoặc có kết quả thực nghiệm.
+**Trạng thái:** đã nhập code baseline upstream tại [baselines/DocViVQA/](baselines/README.md). Chưa nhập dữ liệu, chạy mô hình hoặc có kết quả thực nghiệm của nhóm.
 
 ## Bắt đầu
 
@@ -16,6 +16,7 @@ Workspace nghiên cứu cải thiện baseline DocViVQA, tập trung vào **Visu
 
 ```text
 docvivqa/
+├── baselines/           # Code DocViVQA gốc và thông tin phiên bản nguồn
 ├── configs/             # Cấu hình và hồ sơ các lần chạy
 ├── data/
 │   ├── raw/             # Dữ liệu gốc

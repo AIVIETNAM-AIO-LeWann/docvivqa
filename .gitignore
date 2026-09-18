@@ -39,3 +39,8 @@ dist/
 *.zip
 *.tar
 *.tar.gz
+
+# Imported baseline: local inputs and generated outputs
+/baselines/DocViVQA/data/
+/baselines/DocViVQA/outputs/
+/baselines/DocViVQA/artifacts/models/
