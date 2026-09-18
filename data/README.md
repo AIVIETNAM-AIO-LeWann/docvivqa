@@ -1,5 +1,6 @@
 # Dữ liệu
 
+- `training_set/`: dữ liệu giải nén để chạy baseline, gồm manifest, questions, labels, OCR, ảnh và các file đi kèm. `public_test/`, `private_test/` đặt cùng cấp nếu có.
 - `raw/`: dữ liệu gốc tải từ nguồn của chương trình; giữ nguyên cấu trúc khi giải nén.
 - `processed/`: dữ liệu được tạo từ script/notebook, có thể tái tạo.
 - `splits/`: danh sách document ID cho train/dev/held-out, lưu seed và cách chia.
