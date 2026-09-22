@@ -15,6 +15,16 @@ Branch nghiên cứu và tài liệu. Chưa có kết quả thực nghiệm củ
 
 Outline và Paper Tracker trong repo vẫn là bản khởi tạo; bản hoàn thiện trên Working Files/Google Sheets chưa được đồng bộ hoặc gắn link tại đây.
 
+## Dataset
+
+Dữ liệu TACVU2: [lequangaio070206/tacvu2-docvivqa trên Hugging Face](https://huggingface.co/datasets/lequangaio070206/tacvu2-docvivqa/tree/main).
+
+- `training_set/`: ảnh, OCR, câu hỏi, đáp án và chú giải ô bảng.
+- `public_test/`: ảnh, OCR và câu hỏi; không có nhãn đáp án đi kèm.
+- Nếu dataset đang để **Private**, cần đăng nhập bằng tài khoản có quyền truy cập để xem hoặc tải dữ liệu.
+
+Xem [hướng dẫn chuẩn bị dữ liệu](docs/data.md) để đặt dữ liệu đúng cấu trúc chạy baseline. Dữ liệu không được commit vào GitHub.
+
 ## Branch
 
 | Branch | Nội dung |
