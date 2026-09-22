@@ -1,61 +1,45 @@
-# DocViVQA — Hỏi đáp trên ảnh tài liệu tiếng Việt
+# DocViVQA
 
-Workspace nghiên cứu cải thiện baseline DocViVQA, tập trung vào **Visual Bold Lookup, Argmax, Argmin**, đồng thời khảo sát tích hợp **LLM/VLM**.
+Nghiên cứu cải thiện hỏi đáp trên ảnh tài liệu tiếng Việt và định vị vùng bằng chứng, tập trung vào **Visual Bold Lookup, Argmax, Argmin**, đồng thời khảo sát LLM/VLM.
 
-**Trạng thái:** mới tạo cấu trúc dự án. Chưa nhập dữ liệu, sao chép baseline, chạy mô hình hoặc có kết quả thực nghiệm.
+Branch nghiên cứu và tài liệu. Chưa có kết quả thực nghiệm của nhóm trong repository.
 
-## Bắt đầu
+## Điều hướng
 
-1. Điền [outline tuần 1](docs/weekly/WEEK01-outline.md).
-2. Mở [Paper Tracker](docs/papers/paper-tracker.csv) bằng bảng tính; dùng [mẫu ghi chú](docs/papers/reading-template.md) khi đọc từng bài.
-3. Đặt dữ liệu tải từ nguồn của chương trình trong `data/raw/`; xem [quy ước dữ liệu](data/README.md).
-4. Khi tái hiện baseline, ghi phiên bản và lệnh chạy vào [hồ sơ baseline](docs/baseline.md).
-5. Lưu mỗi thực nghiệm riêng theo [mẫu nhật ký](docs/experiments/experiment-template.md).
+- [Outline và kế hoạch](docs/weekly/WEEK01-outline.md)
+- [Paper Tracker](docs/papers/paper-tracker.csv)
+- [Baseline và hướng dẫn chạy](docs/baseline.md)
+- [Chuẩn bị dữ liệu](docs/data.md)
+- [Metric đánh giá](docs/metrics.md)
+- [Mẫu nhật ký thực nghiệm](docs/experiments/experiment-template.md)
+
+Outline và Paper Tracker trong repo vẫn là bản khởi tạo; bản hoàn thiện trên Working Files/Google Sheets chưa được đồng bộ hoặc gắn link tại đây.
+
+## Branch
+
+| Branch | Nội dung |
+|---|---|
+| [main](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/main) | Tài liệu và kế hoạch nghiên cứu |
+| [baseline](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/baseline) | Code baseline upstream và tài liệu tái hiện |
 
 ## Cấu trúc
 
 ```text
 docvivqa/
-├── configs/             # Cấu hình và hồ sơ các lần chạy
-├── data/
-│   ├── raw/             # Dữ liệu gốc
-│   ├── processed/       # Dữ liệu đã xử lý
-│   └── splits/          # Danh sách document thuộc từng tập
 ├── docs/
-│   ├── papers/          # Paper Tracker và ghi chú đọc
-│   ├── weekly/          # Outline và kết quả theo tuần
-│   └── experiments/     # Giả thuyết, thiết lập và phân tích thực nghiệm
-├── notebooks/           # Khám phá dữ liệu, trực quan hóa và phân tích lỗi
-├── references/          # PDF đọc tại máy; không đưa vào Git
-├── src/docvivqa/         # Code dùng lại trong dự án
-└── outputs/             # Predictions, metrics, hình minh họa, log tại máy
+│   ├── baseline.md          # Nguồn baseline và hướng dẫn chạy
+│   ├── data.md              # Chuẩn bị dữ liệu
+│   ├── metrics.md           # Metric và quy ước cần xác minh
+│   ├── papers/              # Paper Tracker và mẫu ghi chú
+│   ├── weekly/              # Outline và kế hoạch
+│   └── experiments/         # Nhật ký thực nghiệm
+└── README.md
 ```
 
-## Môi trường Python
+Dataset, PDF paper, checkpoint và kết quả thô được giữ tại máy và bỏ qua bởi Git. Các thư mục phục vụ chạy chương trình được tạo khi cần; xem [hướng dẫn dữ liệu](docs/data.md).
 
-Chạy từ thư mục dự án:
+## Thực nghiệm
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -e .
-```
+Chia tập theo document và so sánh các phiên bản trên cùng tập đánh giá. Báo cáo ANLS, Evidence-F1 và điểm tổng hợp theo đề. Script đánh giá upstream hiện chỉ tính coverage và accuracy; cần xác minh evaluator trước khi báo cáo kết quả.
 
-Đây chỉ là package khởi tạo, chưa có pipeline hoặc CLI. Thêm thư viện cần thiết khi triển khai từng bước; chưa chọn model/provider. Ghi lại phiên bản môi trường cho các lần chạy.
-
-## Nguyên tắc thực nghiệm
-
-- Mốc so sánh là baseline tutorial, cần ghi rõ commit và cấu hình thực tế.
-- Chia tập theo document, không tách các câu hỏi của cùng document qua nhiều tập.
-- Nhãn answer/evidence/cell chỉ dùng cho huấn luyện, phát triển hoặc đánh giá đúng vai trò; không đưa nhãn vào đầu vào suy luận để chấm điểm.
-- So sánh từng thay đổi trên cùng dữ liệu; lưu cả trường hợp sửa đúng và làm sai thêm.
-- Theo đề: `Score = 0.85 × ANLS + 0.15 × Evidence-F1`. Dùng evaluator tham khảo và xác minh quy ước trong [metrics](docs/metrics.md).
-- Không commit dữ liệu, PDF, model weights, API key hoặc kết quả thô. Các thư mục tương ứng đã có `.gitignore`.
-- Chưa chọn giấy phép cho code dự án. Khi sử dụng code/dữ liệu bên ngoài, kiểm tra và giữ thông tin nguồn, giấy phép tương ứng.
-
-## Nguồn tham khảo
-
-- [Repository tutorial](https://github.com/T-Sunm/olp-ai-ptit-2026-preliminary-round)
-- Tài liệu chương trình: `[Reading]-OlympicAI2026-Problem1.pdf`, `[Slide]-DocViVQA.pdf`, hướng dẫn Topic Team.
-
-`docs/weekly/` phục vụ chuẩn bị và lưu bản làm việc tại máy. Cuối tuần cập nhật vào Working Files của nhóm; Paper Tracker của chương trình dùng Google Sheets. Leader cập nhật Google Form theo lịch của chương trình.
+[Nguồn baseline](https://github.com/T-Sunm/olp-ai-ptit-2026-preliminary-round) · Commit `2aa3ac7`

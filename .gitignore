@@ -1,4 +1,4 @@
-# Python and local environments
+# Python environments and generated files
 __pycache__/
 *.py[cod]
 *.egg-info/
@@ -9,7 +9,7 @@ dist/
 .pytest_cache/
 .ipynb_checkpoints/
 
-# Secrets and machine-specific settings
+# Secrets and editor settings
 .env
 .env.*
 !.env.example
@@ -17,21 +17,13 @@ dist/
 .idea/
 .vscode/
 
-# Local assets (keep explanatory files)
-/data/**
-!/data/README.md
-!/data/raw/
-!/data/raw/.gitkeep
-!/data/processed/
-!/data/processed/.gitkeep
-!/data/splits/
-!/data/splits/.gitkeep
-/outputs/**
-!/outputs/README.md
-/references/**
-!/references/README.md
-
-# Model weights and archives
+# Local datasets, papers, checkpoints and results
+/data/
+/outputs/
+/references/
+/artifacts/
+/images/
+/docs/papers/*.pdf
 *.pt
 *.pth
 *.safetensors
