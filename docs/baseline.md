@@ -1,13 +1,36 @@
-# Hồ sơ baseline
+# Baseline DocViVQA
 
-## Nguồn
+## Nguồn và phiên bản
 
-- Repository: https://github.com/T-Sunm/olp-ai-ptit-2026-preliminary-round
-- Phần cần xem: `DocViVQA/`.
-- Commit upstream: `2aa3ac75343abe87a4a487e964c7cae47e568e6a`
-- Vị trí code tại máy: [notebooks/](../notebooks/) và [scripts/](../scripts/) tại gốc repo
-- Thay đổi so với upstream: không sửa nội dung; giữ nguyên toàn bộ file được Git theo dõi trong thư mục `DocViVQA/`. Xem [hướng dẫn nhập baseline](baseline-setup.md).
-- Cấu hình/checkpoint, môi trường, evaluator và lệnh chạy: [Điền khi tái hiện]
+- [Repository upstream](https://github.com/T-Sunm/olp-ai-ptit-2026-preliminary-round), thư mục `DocViVQA/`.
+- Commit nguồn: `2aa3ac75343abe87a4a487e964c7cae47e568e6a`.
+- [Code baseline của dự án](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/baseline).
+- Code notebook và script giữ nguyên logic upstream; output chạy cũ, execution count và metadata giao diện notebook đã được dọn. Hình và CSV tham khảo upstream không còn được theo dõi trên GitHub; có thể xem lại ở repo nguồn hoặc commit nhập ban đầu `2f9b38d`.
+- Chưa tìm thấy LICENSE trong snapshot upstream; chưa gán giấy phép mới cho code nhập từ nguồn này.
+
+## Chạy baseline
+
+1. Chuyển sang branch `baseline`.
+2. Chuẩn bị dataset theo [hướng dẫn dữ liệu](data.md).
+3. Chuẩn bị môi trường Python với các thư viện dùng trong notebook: PyTorch, torchvision, NumPy, OpenCV, Pillow và Jupyter/ipykernel. Chưa chốt phiên bản thư viện hoặc cấu hình CPU/GPU.
+4. Mở `notebooks/submission_pipeline.ipynb` và đặt working directory của kernel là `notebooks/`. Kiểm tra `ROOT` trỏ về gốc repo; `SPLIT` mặc định là `training_set`.
+5. Ghi checkpoint sử dụng, cấu hình và kết quả vào [nhật ký thực nghiệm](experiments/experiment-template.md).
+
+### Vai trò notebook
+
+| File trong `notebooks/` | Mục đích |
+|---|---|
+| `submission_pipeline.ipynb` | Pipeline chính, tạo answer và evidence |
+| `explore_dataset.ipynb` | Khám phá dataset |
+| `train_bold_pair_local.ipynb` | Huấn luyện bộ chọn dòng đậm tại máy |
+| `train_bold_pair_colab.ipynb` | Phiên bản huấn luyện cho Colab |
+| `baseline.ipynb` | Bản tham khảo upstream, không phải pipeline chính |
+
+Checkpoint dự kiến: `artifacts/models/bold_pair_resnet18.pt`. Khi chưa có checkpoint, pipeline vẫn thử luật thị giác nhưng không sử dụng được bộ chọn cặp dòng ResNet18 dự phòng.
+
+## Đánh giá
+
+`scripts/evaluate_predictions.py` chỉ tính coverage và accuracy đối chiếu answer; chưa tính ANLS, Evidence-F1 hoặc điểm tổng hợp của đề. Cần xác minh evaluator, chia tập theo document và kiểm tra dữ liệu huấn luyện của checkpoint trước khi đánh giá. Xem [quy ước metric](metrics.md).
 
 ## Kết quả tutorial — chỉ để tham khảo
 
