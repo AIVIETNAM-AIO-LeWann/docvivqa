@@ -2,30 +2,21 @@
 
 Nghiên cứu cải thiện hỏi đáp trên ảnh tài liệu tiếng Việt và định vị vùng bằng chứng, tập trung vào **Visual Bold Lookup, Argmax, Argmin**, đồng thời khảo sát LLM/VLM.
 
-Branch cải thiện các nhánh của baseline. Bản sửa hiện tại loại đường kẻ bảng trước khi đo độ đậm ở Visual Bold Lookup. Code nằm trong `notebooks/` và `scripts/`.
+Branch `improve/baseline-branches` giữ cấu trúc baseline; phần sửa Bold được tích hợp trực tiếp vào `notebooks/submission_pipeline.ipynb`.
 
-## Bản sửa Bold đang sử dụng
+## Chạy bản sửa Bold
 
-Mở **[submission_pipeline_bold_grid_clean.ipynb](notebooks/submission_pipeline_bold_grid_clean.ipynb)** để chạy pipeline đầy đủ. Đặt dữ liệu ở `data/<split>/` và checkpoint đã train tại `artifacts/models/bold_pair_resnet18.pt`, rồi chạy notebook từ đầu. Checkpoint và dữ liệu không được lưu trong Git.
+Mở **[notebooks/submission_pipeline.ipynb](notebooks/submission_pipeline.ipynb)**, đặt dữ liệu ở `data/<split>/`, checkpoint đã train ở `artifacts/models/bold_pair_resnet18.pt`, chọn `SPLIT` trong cell cấu hình và chạy từ đầu đến cuối. Cần PyTorch, torchvision, OpenCV, NumPy và Pillow. Khi nộp bài, chọn đúng tập test; ZIP chứa `predictions.jsonl` được notebook sinh tự động.
 
-| Đánh giá | Trước sửa | Sau sửa |
+Thay đổi: loại đường kẻ dài khỏi mask Otsu trước khi đo độ đậm; giữ các ngưỡng và ResNet fallback. Không cần script xử lý phụ.
+
+| Đánh giá | Trước | Sau |
 |---|---:|---:|
-| Bold trên toàn training_set | 515/535 | **535/535** |
+| Bold trên training_set | 515/535 | **535/535** |
 | Bold trên validation của checkpoint | 102/107 | **107/107** |
-| Private test — raw score so với bài nộp trước của dự án | 95,71 | **95,82** |
+| Private test — raw so với bài nộp trước của dự án | 95,71 | **95,82** |
 
-Sửa 20 lỗi Bold, không làm sai thêm trên 535 câu đã khảo sát. Validation đã được dùng trong quá trình train/phân tích lỗi. Bài nộp private trước dùng phương pháp kết hợp ô tham chiếu, nên hàng private không phải phép so sánh riêng với baseline gốc.
-
-Xem **[báo cáo và hướng dẫn chạy](docs/experiments/2026-09-25-bold-grid-cleanup.md)**. Script [generate_bold_grid_submission.py](scripts/generate_bold_grid_submission.py) sinh ZIP và kiểm tra ID/cấu trúc:
-
-```bash
-python scripts/generate_bold_grid_submission.py \
-  --data data/private_test \
-  --out outputs/private-submission-bold-grid-cleanup \
-  --expected-questions 2000
-```
-
-Cần môi trường Python có PyTorch, torchvision, OpenCV, NumPy và Pillow.
+Không có lỗi mới trên 535 câu đã khảo sát. Validation đã được dùng khi train/phân tích lỗi; bài nộp private trước dùng phương pháp kết hợp ô tham chiếu, không phải baseline gốc. Dữ liệu, checkpoint, ZIP và báo cáo thử nghiệm chi tiết được giữ ngoài Git.
 
 ## Điều hướng
 
@@ -54,7 +45,7 @@ Xem [hướng dẫn chuẩn bị dữ liệu](docs/data.md) để đặt dữ li
 |---|---|
 | [main](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/main) | Tài liệu và kế hoạch nghiên cứu |
 | [baseline](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/baseline) | Code baseline upstream và tài liệu tái hiện |
-| [improve/baseline-branches](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/improve/baseline-branches) | Cải thiện Bold và kết quả thực nghiệm |
+| [improve/baseline-branches](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/improve/baseline-branches) | Pipeline có sửa Bold, cùng cấu trúc baseline |
 
 ## Cấu trúc
 
@@ -76,6 +67,6 @@ Dataset, PDF paper, checkpoint và kết quả thô được giữ tại máy v�
 
 ## Thực nghiệm
 
-Chia tập theo document và so sánh các phiên bản trên cùng tập đánh giá. Báo cáo ANLS, Evidence-F1 và điểm tổng hợp theo đề. Báo cáo sửa Bold dùng evaluator gốc ở commit `2bc3653` để đối chiếu ANLS/Evidence-F1. Script `scripts/evaluate_predictions.py` cũ trong repository chỉ tính coverage/accuracy.
+Chia tập theo document và so sánh các phiên bản trên cùng tập đánh giá. Báo cáo ANLS, Evidence-F1 và điểm tổng hợp theo đề. Kết quả sửa Bold đã được đối chiếu bằng evaluator upstream ở commit `2bc3653`. Script `scripts/evaluate_predictions.py` cũ trong repo chỉ tính coverage và accuracy.
 
-[Nguồn baseline](https://github.com/T-Sunm/olp-ai-ptit-2026-preliminary-round) · Bản cải thiện Bold dựa trên commit `2bc3653`; các notebook baseline cũ giữ nguồn `2aa3ac7`.
+[Nguồn baseline](https://github.com/T-Sunm/olp-ai-ptit-2026-preliminary-round) · Pipeline cải thiện dựa trên commit `2bc3653`; các notebook baseline khác giữ nguồn `2aa3ac7`.
