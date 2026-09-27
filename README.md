@@ -2,21 +2,25 @@
 
 Nghiên cứu cải thiện hỏi đáp trên ảnh tài liệu tiếng Việt và định vị vùng bằng chứng, tập trung vào **Visual Bold Lookup, Argmax, Argmin**, đồng thời khảo sát LLM/VLM.
 
-Branch `improve/baseline-branches` giữ cấu trúc baseline; phần sửa Bold được tích hợp trực tiếp vào `notebooks/submission_pipeline.ipynb`.
+Branch `improve/baseline-branches` giữ cấu trúc baseline; phần sửa Bold và evidence được tích hợp trực tiếp vào `notebooks/submission_pipeline.ipynb`.
 
-## Chạy bản sửa Bold
+## Chạy bản sửa Bold và evidence
 
 Mở **[notebooks/submission_pipeline.ipynb](notebooks/submission_pipeline.ipynb)**, đặt dữ liệu ở `data/<split>/`, checkpoint đã train ở `artifacts/models/bold_pair_resnet18.pt`, chọn `SPLIT` trong cell cấu hình và chạy từ đầu đến cuối. Cần PyTorch, torchvision, OpenCV, NumPy và Pillow. Khi nộp bài, chọn đúng tập test; ZIP chứa `predictions.jsonl` được notebook sinh tự động.
 
-Thay đổi: loại đường kẻ dài khỏi mask Otsu trước khi đo độ đậm; giữ các ngưỡng và ResNet fallback. Không cần script xử lý phụ.
+Thay đổi: loại đường kẻ dài khỏi mask Otsu trước khi đo độ đậm; giữ các ngưỡng và ResNet fallback. Evidence Argmin/Argmax kiểm tra tên trùng trên các hàng trước khi lọc số, giúp giữ đủ ô nhận diện hàng. Không cần script xử lý phụ.
 
 | Đánh giá | Trước | Sau |
 |---|---:|---:|
 | Bold trên training_set | 515/535 | **535/535** |
 | Bold trên validation của checkpoint | 102/107 | **107/107** |
-| Private test — raw so với bài nộp trước của dự án | 95,71 | **95,82** |
+| Private test — bản sửa Bold, trước sửa evidence | 95,71 | **95,82** |
+| Private test — thêm sửa evidence (bài 28084) | 95,82 | **95,84** |
+| Evidence-F1 trên 11.000 câu, thêm sửa evidence sau Bold | 95,9939% | **96,1182%** |
 
-Không có lỗi mới trên 535 câu đã khảo sát. Validation đã được dùng khi train/phân tích lỗi; bài nộp private trước dùng phương pháp kết hợp ô tham chiếu, không phải baseline gốc. Dữ liệu, checkpoint, ZIP và báo cáo thử nghiệm chi tiết được giữ ngoài Git.
+Bản sửa evidence khắc phục đủ 67 câu thiếu ô ngữ cảnh; không giảm Evidence-F1 trên 11.000 câu và không đổi đáp án. Bài nộp 28084 ngày 27/09/2026 đạt raw 95,84 theo kết quả người dùng cung cấp; so với bản Bold, chỉ evidence của 10 câu private thay đổi, mọi đáp án giữ nguyên. Không có lỗi Bold mới trên 535 câu đã khảo sát. Validation đã được dùng khi train/phân tích lỗi; bài nộp private trước dùng phương pháp kết hợp ô tham chiếu, không phải baseline gốc. Dữ liệu, checkpoint, ZIP và báo cáo thử nghiệm chi tiết được giữ ngoài Git.
+
+Argmin/Argmax vẫn còn các ca khác nhãn về phạm vi hàng, ô gộp và đồng hạng cần làm rõ. Bản sửa này chỉ thay cách chọn evidence, chưa giải quyết các ca đó.
 
 ## Điều hướng
 
@@ -45,7 +49,7 @@ Xem [hướng dẫn chuẩn bị dữ liệu](docs/data.md) để đặt dữ li
 |---|---|
 | [main](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/main) | Tài liệu và kế hoạch nghiên cứu |
 | [baseline](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/baseline) | Code baseline upstream và tài liệu tái hiện |
-| [improve/baseline-branches](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/improve/baseline-branches) | Pipeline có sửa Bold, cùng cấu trúc baseline |
+| [improve/baseline-branches](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/improve/baseline-branches) | Pipeline có sửa Bold và evidence, cùng cấu trúc baseline |
 
 ## Cấu trúc
 
