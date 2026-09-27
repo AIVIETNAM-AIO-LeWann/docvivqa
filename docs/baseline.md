@@ -8,6 +8,17 @@
 - Code nằm trên branch `baseline`; phần dọn repository chỉ thay đổi tổ chức tài liệu và output notebook, không thay đổi logic baseline. Hình và CSV tham khảo upstream không còn được theo dõi trên GitHub; có thể xem lại ở repo nguồn hoặc commit nhập ban đầu `2f9b38d`.
 - Chưa tìm thấy LICENSE trong snapshot upstream; chưa gán giấy phép mới cho code nhập từ nguồn này.
 
+## Phiên bản làm việc hiện tại
+
+`main` đã tích hợp bản sửa Bold và evidence, private raw **95,84** (bài 28084,
+27/09/2026, kết quả người dùng cung cấp). Dùng `main` làm điểm xuất phát cho cải tiến mới;
+branch `baseline` giữ bản gốc để đối chiếu. Pipeline trên main dựa trên upstream `2bc3653`;
+commit `2aa3ac7` ở trên mô tả bản baseline lưu trữ.
+
+Mở `notebooks/submission_pipeline.ipynb` trên main, chuẩn bị `data/<split>/` và checkpoint
+`artifacts/models/bold_pair_resnet18.pt`, chọn SPLIT rồi chạy từ đầu đến cuối.
+Xem [README](../README.md) để biết kết quả và các vấn đề Argmin/Argmax còn lại.
+
 ## Chạy baseline
 
 1. Chuyển sang branch `baseline`.
@@ -45,4 +56,4 @@ Nguồn: `[Reading]-OlympicAI2026-Problem1.pdf`, trang 28. Đây là kết quả
 
 ## Kết quả tự tái hiện
 
-Chưa chạy. Khi có kết quả, ghi dataset/split, số câu hỏi, cấu hình, evaluator, lệnh chạy và link tới experiment tương ứng. Không so sánh trực tiếp các điểm đo trên tập khác nhau.
+Đã tái hiện baseline gốc với checkpoint ResNet18 trên 11.000 câu training và phân tích lỗi. Bản sửa Bold đạt 535/535 câu Bold; bản sửa evidence khắc phục thêm 67 ca thiếu ô ngữ cảnh, không giảm Evidence-F1 trên tập đã kiểm tra và giữ nguyên mọi đáp án so với bản Bold. Đây là đánh giá hồi cứu, không phải validation độc lập. Xem [kết quả hiện tại](../README.md). Evaluator upstream `2bc3653` đã được dùng cho các kết quả này; script đánh giá cũ trong repo vẫn chỉ tính coverage và accuracy.
