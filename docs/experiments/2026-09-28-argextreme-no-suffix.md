@@ -67,6 +67,13 @@ Không còn đáp án dự đoán sai chứa hậu tố `Đã đối chiếu`. V
 theo cần giả thuyết mới về phạm vi hàng/tie-break hoặc cách tạo nhãn và phải
 đo hồi quy trên toàn tập, không thêm bộ lọc tên theo cảm tính.
 
+### Sàng lọc giả thuyết số cực đoan
+
+Đã thử loại số nằm ngoài median ± `k × 1,4826 × MAD` trên bảng ứng viên lịch
+sử, với `k = 2, 3, 4`. So với solver cũ, số câu sửa đúng/làm sai mới lần lượt
+là **46/693**, **19/287**, **9/123**. Đây là phép sàng lọc, không phải full run;
+mọi cấu hình đều lùi rất xa nên không đưa vào pipeline và không tạo ZIP private.
+
 Bản staging độc lập ở `outputs/final-staging/TACVU2-no-suffix/` có checkpoint,
 `generate_result.ipynb`, `private_submission.zip` và manifest. Đã chạy lại
 notebook staging: predictions SHA-256

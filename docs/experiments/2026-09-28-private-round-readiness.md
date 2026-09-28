@@ -89,6 +89,10 @@ nhưng **chưa xác minh cấu trúc file cache** ở máy thi. Cũng chưa xác
 checkpoint train trên máy cá nhân đáp ứng cách BTC diễn giải điều kiện
 "trọng số nằm trong `/cache_models`"; cần kiểm tra trước khi dùng làm bản nộp
 cuối cùng. Inference đã chạy local không cần tải trọng số từ Internet.
+File pretrained ResNet18 mà torchvision đã dùng trên máy này có SHA-256
+`f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec`;
+hash này có thể đối chiếu với file ResNet18 trong `/cache_models` nếu cần xác
+minh nguồn trọng số.
 
 Trước khi nhận được quy định về thời điểm mở khóa, repo đã được cung cấp thư
 mục `private_test` local và pipeline đã chạy trên đó một lần. Lần chạy chỉ tạo

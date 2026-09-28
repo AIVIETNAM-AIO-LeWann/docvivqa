@@ -9,6 +9,7 @@ from __future__ import annotations
 import csv
 import io
 import json
+import statistics
 import subprocess
 from collections import Counter
 from pathlib import Path
@@ -37,7 +38,7 @@ def choose(rows, kind):
 def main():
     raw = subprocess.check_output(["git", "show", ARCHIVE], cwd=ROOT).decode("utf-8-sig")
     archived = list(csv.DictReader(io.StringIO(raw)))
-    methods = ("all", "first_name", "last_name", "first_half", "first_75pct", "no_suffix")
+    methods = ("all", "first_name", "last_name", "first_half", "first_75pct", "no_suffix", "mad_2", "mad_3", "mad_4")
     accuracy = Counter()
     against_all = Counter()
     examples = {method: [] for method in methods}
@@ -59,6 +60,16 @@ def main():
                 eligible = rows[:max(1, round(len(rows) * .75))]
             elif method == "no_suffix":
                 eligible = [row for row in rows if not row["return"].endswith(" Đã đối chiếu")] or rows
+            elif method.startswith("mad_"):
+                values = [row["value"] for row in rows]
+                median = statistics.median(values)
+                mad = statistics.median(abs(value - median) for value in values)
+                if mad > 0:
+                    distance = int(method.split("_")[1]) * 1.4826 * mad
+                    if item["reasoning_type"] == "argmax":
+                        eligible = [row for row in rows if row["value"] <= median + distance] or rows
+                    else:
+                        eligible = [row for row in rows if row["value"] >= median - distance] or rows
             answer = choose(eligible, item["reasoning_type"])
             accuracy[(method, answer == expected)] += 1
             if method != "all" and answer != baseline:
