@@ -12,8 +12,11 @@
 
 `main` đã tích hợp Bold, evidence và quy tắc hàng đầu cho Argmin/Argmax.
 Bản trước chỉ sửa Bold + evidence đạt private raw **95,84** (bài 28084, 27/09/2026,
-kết quả người dùng cung cấp). Bản mới chưa có điểm private; training hồi cứu đạt
-97,9868 điểm tổng hợp, có 2 đáp án Argmax bị làm sai mới. Xem README để biết giới hạn.
+kết quả người dùng cung cấp). Candidate trên `codex/pipeline-rnd` với Argmin/Argmax
+và checkpoint Bold train lại được người dùng báo private raw **97,683267857**;
+biến thể tiếp theo loại hậu tố OCR `Đã đối chiếu` đạt **98,2605** (28/09/2026,
+2.000 câu). Training hồi cứu của candidate đầu đạt 97,9868 điểm tổng hợp,
+có 2 đáp án Argmax bị làm sai mới. Xem README để biết giới hạn.
 Dùng main làm điểm xuất phát; branch baseline giữ bản gốc. Pipeline main dựa trên
 upstream `2bc3653`; commit `2aa3ac7` ở trên mô tả bản baseline lưu trữ.
 

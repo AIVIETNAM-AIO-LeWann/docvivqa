@@ -2,7 +2,7 @@
 
 Nghiên cứu cải thiện hỏi đáp trên ảnh tài liệu tiếng Việt và định vị vùng bằng chứng, tập trung vào **Visual Bold Lookup, Argmax, Argmin**, đồng thời khảo sát LLM/VLM.
 
-Branch `main` là phiên bản làm việc chung mới nhất, đã tích hợp sửa Bold, evidence và Argmin/Argmax vào `notebooks/submission_pipeline.ipynb`. Bản trước chỉ sửa Bold + evidence đạt private raw **95,84**; bản thêm Argmin/Argmax **chưa có điểm private**. Các cải tiến tiếp theo nên tạo nhánh từ `main`.
+Branch `main` là phiên bản làm việc chung mới nhất, đã tích hợp sửa Bold, evidence và Argmin/Argmax vào `notebooks/submission_pipeline.ipynb`. Bản trước chỉ sửa Bold + evidence đạt private raw **95,84**. Candidate trên nhánh `codex/pipeline-rnd` đạt raw **97,683267857**, sau đó biến thể loại hậu tố OCR `Đã đối chiếu` đạt **98,2605** cho 2.000 câu theo kết quả người dùng cung cấp ngày 28/09/2026; xem [báo cáo vòng private](docs/experiments/2026-09-28-private-round-readiness.md) và [thử nghiệm](docs/experiments/2026-09-28-argextreme-no-suffix.md). Các cải tiến tiếp theo được thử riêng trên nhánh R&D.
 
 ## Chạy pipeline hiện tại
 
@@ -32,7 +32,7 @@ So với bản Bold + evidence, trên toàn bộ 11.000 câu training:
 | Đúng đáp án Argmin | 1664/1874 | 1751/1874 |
 | Đúng đáp án Argmax | 1705/1898 | 1796/1898 |
 
-Sửa đúng 180 đáp án, làm sai mới 2 đáp án Argmax (`B-train-00268-q10`, `B-train-00355-q01`). Điểm từng câu tăng ở 203 câu, giảm ở 2 câu. Full run trùng kết quả thử nghiệm; các nhánh ngoài Argmin/Argmax giữ nguyên. Đây là đánh giá hồi cứu trên tập đã phân tích, chưa chứng minh mức tăng private. Bài private mới có 41 câu đổi đáp án và 5 câu chỉ đổi evidence, chưa có điểm chấm.
+Sửa đúng 180 đáp án, làm sai mới 2 đáp án Argmax (`B-train-00268-q10`, `B-train-00355-q01`). Điểm từng câu tăng ở 203 câu, giảm ở 2 câu. Full run trùng kết quả thử nghiệm; các nhánh ngoài Argmin/Argmax giữ nguyên. Đây là đánh giá hồi cứu trên tập đã phân tích. Candidate private có 41 câu đổi đáp án và 5 câu chỉ đổi evidence so với bản Bold + evidence trước đó; điểm raw do người dùng cung cấp là 97,683267857, cao hơn mốc 95,84 khoảng 1,84 điểm. Không có nhãn private để phân tích lỗi từng câu.
 
 Quy tắc dùng ID ô và bbox OCR, không dùng chú giải/nhãn khi suy luận. Giữ toàn bộ hàng trước lọc số để chọn evidence. Các ca ô gộp, phạm vi hàng và đồng hạng còn lại cần tiếp tục xác minh.
 
@@ -58,6 +58,8 @@ git switch -c improve/argmin-argmax
 - [Chuẩn bị dữ liệu](docs/data.md)
 - [Metric đánh giá](docs/metrics.md)
 - [Mẫu nhật ký thực nghiệm](docs/experiments/experiment-template.md)
+- [Kiểm tra điều kiện vòng private và candidate offline](docs/experiments/2026-09-28-private-round-readiness.md)
+- [Thử nghiệm loại ghi chú OCR trong Argmin/Argmax](docs/experiments/2026-09-28-argextreme-no-suffix.md)
 
 Outline và Paper Tracker trong repo vẫn là bản khởi tạo; bản hoàn thiện trên Working Files/Google Sheets chưa được đồng bộ hoặc gắn link tại đây.
 
