@@ -2,13 +2,13 @@
 
 Nghiên cứu cải thiện hỏi đáp trên ảnh tài liệu tiếng Việt và định vị vùng bằng chứng, tập trung vào **Visual Bold Lookup, Argmax, Argmin**, đồng thời khảo sát LLM/VLM.
 
-Branch `main` là phiên bản làm việc chung mới nhất, đã tích hợp sửa Bold và evidence vào `notebooks/submission_pipeline.ipynb`, đạt private raw **95,84**. Các cải tiến tiếp theo nên tạo nhánh từ `main`.
+Branch `main` là phiên bản làm việc chung mới nhất, đã tích hợp sửa Bold, evidence và Argmin/Argmax vào `notebooks/submission_pipeline.ipynb`. Bản trước chỉ sửa Bold + evidence đạt private raw **95,84**; bản thêm Argmin/Argmax **chưa có điểm private**. Các cải tiến tiếp theo nên tạo nhánh từ `main`.
 
-## Chạy bản sửa Bold và evidence
+## Chạy pipeline hiện tại
 
 Mở **[notebooks/submission_pipeline.ipynb](notebooks/submission_pipeline.ipynb)**, đặt dữ liệu ở `data/<split>/`, checkpoint đã train ở `artifacts/models/bold_pair_resnet18.pt`, chọn `SPLIT` trong cell cấu hình và chạy từ đầu đến cuối. Cần PyTorch, torchvision, OpenCV, NumPy và Pillow. Khi nộp bài, chọn đúng tập test; ZIP chứa `predictions.jsonl` được notebook sinh tự động.
 
-Thay đổi: loại đường kẻ dài khỏi mask Otsu trước khi đo độ đậm; giữ các ngưỡng và ResNet fallback. Evidence Argmin/Argmax kiểm tra tên trùng trên các hàng trước khi lọc số, giúp giữ đủ ô nhận diện hàng. Không cần script xử lý phụ.
+Thay đổi: loại đường kẻ dài khỏi mask Otsu trước khi đo độ đậm; giữ các ngưỡng và ResNet fallback. Evidence Argmin/Argmax kiểm tra tên trùng trên các hàng trước khi lọc số, giúp giữ đủ ô nhận diện hàng. Argmin/Argmax chỉ xét hàng vật lý đầu mà mỗi ID ô tên phủ xuống (kể cả khi số ở hàng đó thiếu); nếu không còn ứng viên thì dùng danh sách gốc. Không cần script xử lý phụ.
 
 | Đánh giá | Trước | Sau |
 |---|---:|---:|
@@ -20,13 +20,27 @@ Thay đổi: loại đường kẻ dài khỏi mask Otsu trước khi đo độ 
 
 Bản sửa evidence khắc phục đủ 67 câu thiếu ô ngữ cảnh; không giảm Evidence-F1 trên 11.000 câu và không đổi đáp án. Bài nộp 28084 ngày 27/09/2026 đạt raw 95,84 theo kết quả người dùng cung cấp; so với bản Bold, chỉ evidence của 10 câu private thay đổi, mọi đáp án giữ nguyên. Không có lỗi Bold mới trên 535 câu đã khảo sát. Validation đã được dùng khi train/phân tích lỗi; bài nộp private trước dùng phương pháp kết hợp ô tham chiếu, không phải baseline gốc. Dữ liệu, checkpoint, ZIP và báo cáo thử nghiệm chi tiết được giữ ngoài Git.
 
-Argmin/Argmax vẫn còn các ca khác nhãn về phạm vi hàng, ô gộp và đồng hạng cần làm rõ. Bản sửa này chỉ thay cách chọn evidence, chưa giải quyết các ca đó.
+### Kết quả thêm sửa Argmin/Argmax
+
+So với bản Bold + evidence, trên toàn bộ 11.000 câu training:
+
+| Chỉ số | Trước | Sau |
+|---|---:|---:|
+| ANLS | 96,4040% | 98,0101% |
+| Evidence-F1 | 96,1182% | 97,8545% |
+| Điểm tổng hợp /100 | 96,3611 | 97,9868 |
+| Đúng đáp án Argmin | 1664/1874 | 1751/1874 |
+| Đúng đáp án Argmax | 1705/1898 | 1796/1898 |
+
+Sửa đúng 180 đáp án, làm sai mới 2 đáp án Argmax (`B-train-00268-q10`, `B-train-00355-q01`). Điểm từng câu tăng ở 203 câu, giảm ở 2 câu. Full run trùng kết quả thử nghiệm; các nhánh ngoài Argmin/Argmax giữ nguyên. Đây là đánh giá hồi cứu trên tập đã phân tích, chưa chứng minh mức tăng private. Bài private mới có 41 câu đổi đáp án và 5 câu chỉ đổi evidence, chưa có điểm chấm.
+
+Quy tắc dùng ID ô và bbox OCR, không dùng chú giải/nhãn khi suy luận. Giữ toàn bộ hàng trước lọc số để chọn evidence. Các ca ô gộp, phạm vi hàng và đồng hạng còn lại cần tiếp tục xác minh.
 
 ## Ưu tiên cải tiến tiếp theo
 
 - **Argmin/Argmax:** làm rõ phạm vi hàng hợp lệ, ô gộp, tên trùng và đồng hạng; đối chiếu ảnh/OCR/nhãn trước khi đổi quy tắc chọn cực trị.
 - **Bold:** giữ bản hiện tại làm mốc; đã đúng 535/535 câu trên tập đã kiểm tra, chưa có bằng chứng đúng tuyệt đối trên dữ liệu mới. Chạy kiểm tra hồi quy nếu thay đổi xử lý bảng hoặc ảnh.
-- **Evidence:** giữ sửa lỗi thiếu ô nhận diện; 36 ca đúng chuỗi đáp án nhưng khác ô số cần xử lý cùng vấn đề Argmin/Argmax.
+- **Evidence:** giữ sửa lỗi thiếu ô nhận diện; tiếp tục kiểm tra các ca còn khác ô số sau thay đổi Argmin/Argmax.
 
 Tạo nhánh công việc mới từ main đã cập nhật (khi working tree sạch):
 
@@ -61,9 +75,11 @@ Xem [hướng dẫn chuẩn bị dữ liệu](docs/data.md) để đặt dữ li
 
 | Branch | Nội dung |
 |---|---|
-| [main](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/main) | Phiên bản mới nhất: Bold + evidence, private raw 95,84 |
+| [main](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/main) | Phiên bản mới nhất: Bold + evidence + Argmin/Argmax; đang chờ điểm private |
 | [baseline](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/baseline) | Code baseline upstream và tài liệu tái hiện |
 | [improve/baseline-branches](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/improve/baseline-branches) | Nhánh phát triển Bold + evidence đã được merge vào main |
+
+Nhánh [improve/argmin-argmax-first-row](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/improve/argmin-argmax-first-row) lưu phần thay đổi Argmin/Argmax.
 
 ## Cấu trúc
 

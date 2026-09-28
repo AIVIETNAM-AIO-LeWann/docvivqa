@@ -10,10 +10,12 @@
 
 ## Phiên bản làm việc hiện tại
 
-`main` đã tích hợp bản sửa Bold và evidence, private raw **95,84** (bài 28084,
-27/09/2026, kết quả người dùng cung cấp). Dùng `main` làm điểm xuất phát cho cải tiến mới;
-branch `baseline` giữ bản gốc để đối chiếu. Pipeline trên main dựa trên upstream `2bc3653`;
-commit `2aa3ac7` ở trên mô tả bản baseline lưu trữ.
+`main` đã tích hợp Bold, evidence và quy tắc hàng đầu cho Argmin/Argmax.
+Bản trước chỉ sửa Bold + evidence đạt private raw **95,84** (bài 28084, 27/09/2026,
+kết quả người dùng cung cấp). Bản mới chưa có điểm private; training hồi cứu đạt
+97,9868 điểm tổng hợp, có 2 đáp án Argmax bị làm sai mới. Xem README để biết giới hạn.
+Dùng main làm điểm xuất phát; branch baseline giữ bản gốc. Pipeline main dựa trên
+upstream `2bc3653`; commit `2aa3ac7` ở trên mô tả bản baseline lưu trữ.
 
 Mở `notebooks/submission_pipeline.ipynb` trên main, chuẩn bị `data/<split>/` và checkpoint
 `artifacts/models/bold_pair_resnet18.pt`, chọn SPLIT rồi chạy từ đầu đến cuối.
