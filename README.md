@@ -60,6 +60,7 @@ git switch -c improve/argmin-argmax
 - [Mẫu nhật ký thực nghiệm](docs/experiments/experiment-template.md)
 - [Kiểm tra điều kiện vòng private và candidate offline](docs/experiments/2026-09-28-private-round-readiness.md)
 - [Thử nghiệm loại ghi chú OCR trong Argmin/Argmax](docs/experiments/2026-09-28-argextreme-no-suffix.md)
+- [Sàng lọc reranker Argmin/Argmax theo tài liệu](docs/experiments/2026-09-28-reranker-screen.md)
 
 Outline và Paper Tracker trong repo vẫn là bản khởi tạo; bản hoàn thiện trên Working Files/Google Sheets chưa được đồng bộ hoặc gắn link tại đây.
 
