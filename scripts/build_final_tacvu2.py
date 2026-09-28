@@ -15,7 +15,7 @@ from validate_submission import validate
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SOURCE = ROOT / "outputs/pipeline-rnd/argextreme-no-suffix/submission_private_test.zip"
 DEFAULT_TARGET = ROOT / "outputs/final-staging/TACVU2-no-suffix"
-DEFAULT_NOTEBOOK = ROOT / "outputs/pipeline-rnd/variants/argextreme_no_suffix.ipynb"
+DEFAULT_NOTEBOOK = ROOT / "notebooks/submission_pipeline_no_suffix.ipynb"
 MODEL = ROOT / "artifacts/models/bold_pair_resnet18.pt"
 
 

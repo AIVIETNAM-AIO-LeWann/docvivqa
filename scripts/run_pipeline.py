@@ -12,7 +12,7 @@ import time
 
 
 ROOT = Path(__file__).resolve().parents[1]
-NOTEBOOK = ROOT / "notebooks" / "submission_pipeline.ipynb"
+NOTEBOOK = ROOT / "notebooks" / "submission_pipeline_no_suffix.ipynb"
 
 
 def sha256(path: Path) -> str:
@@ -34,7 +34,7 @@ def main() -> None:
         sys.stderr.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--split", choices=("training_set", "public_test", "private_test"), default="training_set")
-    parser.add_argument("--out", type=Path, default=ROOT / "outputs" / "pipeline-rnd" / "baseline-new-checkpoint")
+    parser.add_argument("--out", type=Path, default=ROOT / "outputs" / "pipeline-rnd" / "current-no-suffix")
     parser.add_argument("--notebook", type=Path, default=NOTEBOOK)
     args = parser.parse_args()
     notebook_path = args.notebook.resolve()

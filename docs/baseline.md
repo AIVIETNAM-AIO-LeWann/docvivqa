@@ -10,7 +10,8 @@
 
 ## Phiên bản làm việc hiện tại
 
-`main` đã tích hợp Bold, evidence và quy tắc hàng đầu cho Argmin/Argmax.
+`main` đã tích hợp Bold, evidence, quy tắc hàng đầu cho Argmin/Argmax và lọc
+hậu tố OCR `Đã đối chiếu` trong ô tên.
 Bản trước chỉ sửa Bold + evidence đạt private raw **95,84** (bài 28084, 27/09/2026,
 kết quả người dùng cung cấp). Candidate trên `codex/pipeline-rnd` với Argmin/Argmax
 và checkpoint Bold train lại được người dùng báo private raw **97,683267857**;
@@ -20,7 +21,7 @@ có 2 đáp án Argmax bị làm sai mới. Xem README để biết giới hạn
 Dùng main làm điểm xuất phát; branch baseline giữ bản gốc. Pipeline main dựa trên
 upstream `2bc3653`; commit `2aa3ac7` ở trên mô tả bản baseline lưu trữ.
 
-Mở `notebooks/submission_pipeline.ipynb` trên main, chuẩn bị `data/<split>/` và checkpoint
+Mở `notebooks/submission_pipeline_no_suffix.ipynb` trên main, chuẩn bị `data/<split>/` và checkpoint
 `artifacts/models/bold_pair_resnet18.pt`, chọn SPLIT rồi chạy từ đầu đến cuối.
 Xem [README](../README.md) để biết kết quả và các vấn đề Argmin/Argmax còn lại.
 
@@ -36,7 +37,8 @@ Xem [README](../README.md) để biết kết quả và các vấn đề Argmin/
 
 | File trong `notebooks/` | Mục đích |
 |---|---|
-| `submission_pipeline.ipynb` | Pipeline chính, tạo answer và evidence |
+| `submission_pipeline_no_suffix.ipynb` | Pipeline đã đạt private raw 98,2605, tạo answer và evidence |
+| `submission_pipeline.ipynb` | Pipeline trước khi lọc hậu tố OCR, dùng để đối chiếu |
 | `explore_dataset.ipynb` | Khám phá dataset |
 | `train_bold_pair_local.ipynb` | Huấn luyện bộ chọn dòng đậm tại máy |
 | `train_bold_pair_colab.ipynb` | Phiên bản huấn luyện cho Colab |

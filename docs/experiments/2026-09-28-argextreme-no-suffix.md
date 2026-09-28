@@ -11,6 +11,10 @@
   `scripts/make_argextreme_variant.py` vào `outputs/pipeline-rnd/variants/`
   (ngoài Git); notebook gốc chưa sửa.
 
+Sau khi xác nhận điểm private, cùng biến thể notebook này được lưu trong Git tại
+`notebooks/submission_pipeline_no_suffix.ipynb` và trở thành pipeline mặc định
+trên `main`. Notebook gốc vẫn giữ để đối chiếu.
+
 ## Sàng lọc trước full run
 
 `scripts/experiment_argextreme_rules.py` dùng CSV ứng viên lịch sử ở commit

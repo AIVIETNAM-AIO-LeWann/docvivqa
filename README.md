@@ -2,13 +2,13 @@
 
 Nghiên cứu cải thiện hỏi đáp trên ảnh tài liệu tiếng Việt và định vị vùng bằng chứng, tập trung vào **Visual Bold Lookup, Argmax, Argmin**, đồng thời khảo sát LLM/VLM.
 
-Branch `main` là phiên bản làm việc chung mới nhất, đã tích hợp sửa Bold, evidence và Argmin/Argmax vào `notebooks/submission_pipeline.ipynb`. Bản trước chỉ sửa Bold + evidence đạt private raw **95,84**. Candidate trên nhánh `codex/pipeline-rnd` đạt raw **97,683267857**, sau đó biến thể loại hậu tố OCR `Đã đối chiếu` đạt **98,2605** cho 2.000 câu theo kết quả người dùng cung cấp ngày 28/09/2026; xem [báo cáo vòng private](docs/experiments/2026-09-28-private-round-readiness.md) và [thử nghiệm](docs/experiments/2026-09-28-argextreme-no-suffix.md). Các cải tiến tiếp theo được thử riêng trên nhánh R&D.
+Branch `main` có pipeline đã đạt private raw **98,2605** trên 2.000 câu theo kết quả người dùng cung cấp ngày 28/09/2026. Notebook được chấm là biến thể loại hậu tố OCR `Đã đối chiếu` của pipeline Bold + evidence + Argmin/Argmax; bản trước đạt **97,683267857**. Xem [báo cáo vòng private](docs/experiments/2026-09-28-private-round-readiness.md) và [thử nghiệm](docs/experiments/2026-09-28-argextreme-no-suffix.md).
 
 ## Chạy pipeline hiện tại
 
-Mở **[notebooks/submission_pipeline.ipynb](notebooks/submission_pipeline.ipynb)**, đặt dữ liệu ở `data/<split>/`, checkpoint đã train ở `artifacts/models/bold_pair_resnet18.pt`, chọn `SPLIT` trong cell cấu hình và chạy từ đầu đến cuối. Cần PyTorch, torchvision, OpenCV, NumPy và Pillow. Khi nộp bài, chọn đúng tập test; ZIP chứa `predictions.jsonl` được notebook sinh tự động.
+Mở **[notebooks/submission_pipeline_no_suffix.ipynb](notebooks/submission_pipeline_no_suffix.ipynb)**, đặt dữ liệu ở `data/<split>/`, checkpoint đã train ở `artifacts/models/bold_pair_resnet18.pt`, chọn `SPLIT` trong cell cấu hình và chạy từ đầu đến cuối. Cần PyTorch, torchvision, OpenCV, NumPy và Pillow. Khi nộp bài, chọn đúng tập test; ZIP chứa `predictions.jsonl` được notebook sinh tự động. [Notebook trước cải tiến hậu tố OCR](notebooks/submission_pipeline.ipynb) vẫn được giữ để đối chiếu.
 
-Thay đổi: loại đường kẻ dài khỏi mask Otsu trước khi đo độ đậm; giữ các ngưỡng và ResNet fallback. Evidence Argmin/Argmax kiểm tra tên trùng trên các hàng trước khi lọc số, giúp giữ đủ ô nhận diện hàng. Argmin/Argmax chỉ xét hàng vật lý đầu mà mỗi ID ô tên phủ xuống (kể cả khi số ở hàng đó thiếu); nếu không còn ứng viên thì dùng danh sách gốc. Không cần script xử lý phụ.
+Thay đổi: loại đường kẻ dài khỏi mask Otsu trước khi đo độ đậm; giữ các ngưỡng và ResNet fallback. Evidence Argmin/Argmax kiểm tra tên trùng trên các hàng trước khi lọc số, giúp giữ đủ ô nhận diện hàng. Argmin/Argmax chỉ xét hàng vật lý đầu mà mỗi ID ô tên phủ xuống (kể cả khi số ở hàng đó thiếu); nếu không còn ứng viên thì dùng danh sách gốc. Nếu OCR nối `Đã đối chiếu` vào cuối tên hàng, bỏ ứng viên đó khi còn ứng viên sạch. Không cần script xử lý phụ.
 
 | Đánh giá | Trước | Sau |
 |---|---:|---:|
@@ -78,7 +78,7 @@ Xem [hướng dẫn chuẩn bị dữ liệu](docs/data.md) để đặt dữ li
 
 | Branch | Nội dung |
 |---|---|
-| [main](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/main) | Phiên bản mới nhất: Bold + evidence + Argmin/Argmax; đang chờ điểm private |
+| [main](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/main) | Phiên bản đã đạt private raw 98,2605: Bold + evidence + Argmin/Argmax + lọc hậu tố OCR |
 | [baseline](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/baseline) | Code baseline upstream và tài liệu tái hiện |
 | [improve/baseline-branches](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/improve/baseline-branches) | Nhánh phát triển Bold + evidence đã được merge vào main |
 
