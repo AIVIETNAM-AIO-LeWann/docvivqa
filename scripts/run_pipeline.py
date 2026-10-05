@@ -12,7 +12,7 @@ import time
 
 
 ROOT = Path(__file__).resolve().parents[1]
-NOTEBOOK = ROOT / "notebooks" / "submission_pipeline_no_suffix.ipynb"
+NOTEBOOK = ROOT / "notebooks" / "submission_pipeline_context_structure.ipynb"
 
 
 def sha256(path: Path) -> str:
@@ -34,7 +34,7 @@ def main() -> None:
         sys.stderr.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--split", choices=("training_set", "public_test", "private_test"), default="training_set")
-    parser.add_argument("--out", type=Path, default=ROOT / "outputs" / "pipeline-rnd" / "current-no-suffix")
+    parser.add_argument("--out", type=Path, default=ROOT / "outputs" / "current")
     parser.add_argument("--notebook", type=Path, default=NOTEBOOK)
     args = parser.parse_args()
     notebook_path = args.notebook.resolve()
@@ -54,7 +54,13 @@ def main() -> None:
         if cell["cell_type"] != "code":
             continue
         print(f"Running pipeline cell {index}/{len(notebook['cells']) - 1}", flush=True)
-        exec(compile("".join(cell["source"]), f"{notebook_path.name}:cell_{index}", "exec"), namespace)
+        source = "".join(cell["source"])
+        if index == 5:
+            import re
+            source, count = re.subn(r"(?m)^SPLIT = .*?$", f"SPLIT = {args.split!r}", source, count=1)
+            if count != 1:
+                raise ValueError("Cannot find SPLIT in notebook configuration")
+        exec(compile(source, f"{notebook_path.name}:cell_{index}", "exec"), namespace)
         if index == 5:
             namespace["SPLIT"] = args.split
             namespace["RUNS"] = output_dir
