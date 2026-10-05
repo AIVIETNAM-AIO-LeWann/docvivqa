@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480" role="img" aria-labelledby="title desc">
+<title id="title">Quy trình suy luận DocViVQA</title>
+<desc id="desc">Ảnh, OCR và câu hỏi được phân tích để xác định bảng, hàng, cột. Hệ thống xử lý Bold, Argmin/Argmax và các phép toán khác, rồi tạo đáp án, evidence và ZIP.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#8b9db1" stroke-width="1.5"/></marker></defs>
+<rect width="1200" height="480" rx="20" fill="#f4f7fb"/>
+<g font-family="DejaVu Sans, Arial, sans-serif">
+<text x="34" y="44" fill="#142d44" font-size="23" font-weight="700">Từ tài liệu đến câu trả lời</text>
+<text x="34" y="72" fill="#61748b" font-size="14">Kết hợp cấu trúc OCR, tín hiệu hình ảnh và quy tắc suy luận.</text>
+<path d="M296 223H325M571 223H600M884 223H912" stroke="#8b9db1" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="30" y="105" width="260" height="247" rx="14" fill="#fff" stroke="#dce4ef"/>
+<circle cx="61" cy="138" r="16" fill="#e8effa"/><text x="52" y="143" fill="#486ba4" font-size="12" font-weight="700">01</text>
+<text x="87" y="144" fill="#1c3652" font-size="18" font-weight="700">Đầu vào</text>
+<g font-size="16" fill="#3c526a"><text x="52" y="194">Ảnh trang tài liệu</text><text x="52" y="236">OCR: chữ + bbox + ID</text><text x="52" y="278">Câu hỏi tiếng Việt</text></g>
+<text x="52" y="325" fill="#78889b" font-size="12">Không dùng nhãn khi suy luận</text>
+<rect x="331" y="105" width="234" height="247" rx="14" fill="#fff" stroke="#dce4ef"/>
+<circle cx="362" cy="138" r="16" fill="#e8effa"/><text x="353" y="143" fill="#486ba4" font-size="12" font-weight="700">02</text>
+<text x="388" y="144" fill="#1c3652" font-size="18" font-weight="700">Phân tích</text>
+<g font-size="16" fill="#3c526a"><text x="352" y="194">Hiểu yêu cầu câu hỏi</text><text x="352" y="236">Xác định trang / bảng</text><text x="352" y="278">Khớp hàng và cột</text></g>
+<text x="352" y="325" fill="#78889b" font-size="12">Tạo tập ứng viên ban đầu</text>
+<rect x="606" y="105" width="272" height="247" rx="14" fill="#eaf7f3" stroke="#aad9c9"/>
+<circle cx="637" cy="138" r="16" fill="#d0ece1"/><text x="628" y="143" fill="#22785c" font-size="12" font-weight="700">03</text>
+<text x="663" y="144" fill="#154f3f" font-size="18" font-weight="700">Suy luận</text>
+<text x="627" y="185" fill="#17684e" font-size="14" font-weight="700">BOLD</text><text x="627" y="209" fill="#3c526a" font-size="14">Lọc đường kẻ → so độ đậm</text>
+<text x="627" y="247" fill="#17684e" font-size="14" font-weight="700">ARGMIN / ARGMAX</text><text x="627" y="271" fill="#3c526a" font-size="14">Kiểm tra ngữ cảnh → cực trị</text>
+<text x="627" y="325" fill="#61748b" font-size="12">Tra cứu · Tổng · Đếm · So sánh</text>
+<rect x="918" y="105" width="252" height="247" rx="14" fill="#142d44"/>
+<circle cx="949" cy="138" r="16" fill="#31516d"/><text x="940" y="143" fill="#c8e3fa" font-size="12" font-weight="700">04</text>
+<text x="975" y="144" fill="#fff" font-size="18" font-weight="700">Kết quả</text>
+<g fill="#fff" font-size="16"><text x="940" y="194">Đáp án dạng chuỗi</text><text x="940" y="236">Evidence: trang + bbox</text><text x="940" y="278">predictions.jsonl</text></g>
+<text x="940" y="325" fill="#8ae0c5" font-size="12">Đóng gói ZIP để nộp bài</text>
+<rect x="30" y="380" width="1140" height="69" rx="12" fill="#e7edf5"/>
+<text x="52" y="409" fill="#27435f" font-size="14" font-weight="700">Cải thiện từng bước, giữ nguyên cấu trúc pipeline.</text>
+<text x="52" y="432" fill="#61748b" font-size="13">Kiểm tra cả đáp án và vùng bằng chứng; đối chiếu trước / sau để phát hiện lỗi mới.</text>
+</g></svg>

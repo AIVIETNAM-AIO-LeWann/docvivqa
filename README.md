@@ -1,24 +1,17 @@
-# DocViVQA
+![DocViVQA — Hỏi đáp tài liệu, tìm đúng bằng chứng](docs/assets/docvivqa-hero.svg)
 
-**Hỏi đáp trên ảnh tài liệu tiếng Việt, kèm vùng bằng chứng.**
+<p align="center">
+  <a href="#tổng-quan">Tổng quan</a> ·
+  <a href="#kết-quả">Kết quả</a> ·
+  <a href="#bắt-đầu">Bắt đầu</a> ·
+  <a href="#tài-liệu">Tài liệu</a>
+</p>
 
 Từ một ảnh tài liệu và câu hỏi, hệ thống xác định thông tin cần tìm, trả lời và chỉ ra vị trí chứng minh trên trang. Dự án phát triển từ baseline của cuộc thi, tập trung cải thiện **nhận diện chữ in đậm**, **Argmin/Argmax** và **định vị bằng chứng**.
 
-**Kết quả private test: 100,00 điểm raw** · Python · PyTorch · OpenCV
-
 ## Tổng quan
 
-```text
-Ảnh tài liệu + OCR + Câu hỏi
-              ↓
-     Xác định bảng, hàng và cột
-              ↓
-  Kiểm tra ngữ cảnh · Chọn hàng · Tính toán
-              ↓
-       Đáp án + Vùng bằng chứng
-              ↓
-       predictions.jsonl → ZIP
-```
+![Quy trình DocViVQA: đầu vào, phân tích, suy luận, đáp án và bằng chứng](docs/assets/docvivqa-pipeline.svg)
 
 Pipeline hỗ trợ tra cứu, đếm, tính tổng, so sánh, tìm giá trị nhỏ/lớn nhất, tổng qua nhiều trang và tra cứu theo hàng in đậm.
 
