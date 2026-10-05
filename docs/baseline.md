@@ -21,10 +21,8 @@
 | File trong `notebooks/` | Mục đích |
 |---|---|
 | `submission_pipeline.ipynb` | Pipeline chính, tạo answer và evidence |
-| `explore_dataset.ipynb` | Khám phá dataset |
 | `train_bold_pair_local.ipynb` | Huấn luyện bộ chọn dòng đậm tại máy |
 | `train_bold_pair_colab.ipynb` | Phiên bản huấn luyện cho Colab |
-| `baseline.ipynb` | Bản tham khảo upstream, không phải pipeline chính |
 
 Checkpoint dự kiến: `artifacts/models/bold_pair_resnet18.pt`. Khi chưa có checkpoint, pipeline vẫn thử luật thị giác nhưng không sử dụng được bộ chọn cặp dòng ResNet18 dự phòng.
 

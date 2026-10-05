@@ -1,57 +1,36 @@
-# DocViVQA
+# DocViVQA — Baseline
 
-Nghiên cứu cải thiện hỏi đáp trên ảnh tài liệu tiếng Việt và định vị vùng bằng chứng, tập trung vào **Visual Bold Lookup, Argmax, Argmin**, đồng thời khảo sát LLM/VLM.
+**Pipeline gốc cho hỏi đáp trên ảnh tài liệu tiếng Việt và định vị vùng bằng chứng.**
 
-Branch tái hiện baseline; code nằm trực tiếp trong `notebooks/` và `scripts/`. Chưa có kết quả thực nghiệm của nhóm trong repository.
+Branch này giữ mã baseline để tái hiện và đối chiếu. Phiên bản cải tiến nằm trên [main](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/main).
 
-## Điều hướng
+## Nguồn
 
-- [Outline và kế hoạch](docs/weekly/WEEK01-outline.md)
-- [Paper Tracker](docs/papers/paper-tracker.csv)
-- [Baseline và hướng dẫn chạy](docs/baseline.md)
-- [Chuẩn bị dữ liệu](docs/data.md)
-- [Metric đánh giá](docs/metrics.md)
-- [Mẫu nhật ký thực nghiệm](docs/experiments/experiment-template.md)
+Kế thừa thư mục DocViVQA của [T-Sunm/olp-ai-ptit-2026-preliminary-round](https://github.com/T-Sunm/olp-ai-ptit-2026-preliminary-round), snapshot `2aa3ac75343abe87a4a487e964c7cae47e568e6a`. Việc dọn repository không thay đổi code trong các notebook được giữ lại.
 
-Outline và Paper Tracker trong repo vẫn là bản khởi tạo; bản hoàn thiện trên Working Files/Google Sheets chưa được đồng bộ hoặc gắn link tại đây.
+## Chạy baseline
 
-## Dataset
+1. Cài Python cùng PyTorch, torchvision, OpenCV, NumPy, Pillow và Jupyter.
+2. Đặt dataset tại `data/<split>/`, giữ nguyên cấu trúc manifest, questions, images và OCR.
+3. Train Bold bằng notebook local/Colab, hoặc chuẩn bị checkpoint đã train tại `artifacts/models/bold_pair_resnet18.pt`.
+4. Mở `notebooks/submission_pipeline.ipynb` với working directory là `notebooks/`; kiểm tra đường dẫn ROOT, checkpoint và SPLIT trong cell cấu hình rồi chạy từ đầu đến cuối.
+5. Chọn đúng tập kiểm tra khi tạo bài nộp. ZIP phải chứa `predictions.jsonl`.
 
-Dữ liệu TACVU2: [lequangaio070206/tacvu2-docvivqa trên Hugging Face](https://huggingface.co/datasets/lequangaio070206/tacvu2-docvivqa/tree/main).
+Dataset: [TACVU2 trên Hugging Face](https://huggingface.co/datasets/lequangaio070206/tacvu2-docvivqa). Dữ liệu và checkpoint không nằm trong Git.
 
-- `training_set/`: ảnh, OCR, câu hỏi, đáp án và chú giải ô bảng.
-- `public_test/`: ảnh, OCR và câu hỏi; không có nhãn đáp án đi kèm.
-- Nếu dataset đang để **Private**, cần đăng nhập bằng tài khoản có quyền truy cập để xem hoặc tải dữ liệu.
+## Các file chính
 
-Xem [hướng dẫn chuẩn bị dữ liệu](docs/data.md) để đặt dữ liệu đúng cấu trúc chạy baseline. Dữ liệu không được commit vào GitHub.
-
-## Branch
-
-| Branch | Nội dung |
+| File | Vai trò |
 |---|---|
-| [main](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/main) | Tài liệu và kế hoạch nghiên cứu |
-| [baseline](https://github.com/AIVIETNAM-AIO-LeWann/docvivqa/tree/baseline) | Code baseline upstream và tài liệu tái hiện |
+| `notebooks/submission_pipeline.ipynb` | Pipeline suy luận baseline |
+| `notebooks/train_bold_pair_local.ipynb` | Train ResNet18 Bold tại máy |
+| `notebooks/train_bold_pair_colab.ipynb` | Train Bold trên Colab |
+| `scripts/evaluate_predictions.py` | Coverage và accuracy đáp án; không tính ANLS/Evidence-F1 |
 
-## Cấu trúc
+## Tài liệu
 
-```text
-docvivqa/
-├── docs/
-│   ├── baseline.md          # Nguồn baseline và hướng dẫn chạy
-│   ├── data.md              # Chuẩn bị dữ liệu
-│   ├── metrics.md           # Metric và quy ước cần xác minh
-│   ├── papers/              # Paper Tracker và mẫu ghi chú
-│   ├── weekly/              # Outline và kế hoạch
-│   └── experiments/         # Nhật ký thực nghiệm
-├── notebooks/              # Pipeline, khám phá dữ liệu, train bold
-├── scripts/                # Script đánh giá upstream
-└── README.md
-```
+- [Baseline](docs/baseline.md)
+- [Dữ liệu](docs/data.md)
+- [Metric](docs/metrics.md)
 
-Dataset, PDF paper, checkpoint và kết quả thô được giữ tại máy và bỏ qua bởi Git. Các thư mục phục vụ chạy chương trình được tạo khi cần; xem [hướng dẫn dữ liệu](docs/data.md).
-
-## Thực nghiệm
-
-Chia tập theo document và so sánh các phiên bản trên cùng tập đánh giá. Báo cáo ANLS, Evidence-F1 và điểm tổng hợp theo đề. Script đánh giá upstream hiện chỉ tính coverage và accuracy; cần xác minh evaluator trước khi báo cáo kết quả.
-
-[Nguồn baseline](https://github.com/T-Sunm/olp-ai-ptit-2026-preliminary-round) · Commit `2aa3ac7`
+Chỉ giữ hai branch: `baseline` để đối chiếu mã gốc và `main` để sử dụng, phát triển bản cải tiến. Các notebook tham khảo đã dọn vẫn có trong lịch sử Git.
